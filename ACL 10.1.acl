@@ -1,0 +1,10 @@
+acl hores_insti  time MTWHF 15:00 21:20
+acl dominis_mp3 url_regex http://.*mp3.*
+acl xarxa src 192.168.0.0/255.255.255.0
+
+delay_pools 1
+delay_class 1 1
+delay_parameters 1 5000/16000
+delay_access 1 allow dominis_mp3
+delay_access 1 allow xarxa
+
