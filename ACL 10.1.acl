@@ -1,10 +1,45 @@
-acl hores_insti  time MTWHF 15:00 21:20
-acl dominis_mp3 url_regex http://.*mp3.*
-acl xarxa src 192.168.0.0/255.255.255.0
+acl empresa src 192.168.0.10/192.168.0.30
+acl administ src 192.168.0.40/192.168.0.100
+acl maquin src 192.168.0.110/192.168.0.130
+acl disseny src 192.168.0.150/192.168.0.200
+#////router 192.168.0.1/////////
+acl time SMTWHFA 23:00 7:00
+acl downl SMTWHFA 8:00 12:00
+acl intadmin SMTWHFA 15:30 21:30
+acl intmaqui M 9:30 15:30
+acl dominis_mp3 url_regex http://.*mp3.* http://.*wav.* http://.*iso.* http://.*ogg.* http://.*wmv.* http://.*avi.*
+acl prohibits url_regex "/etc/squid/url_prohibides.txt"
+acl  url "http://www.webmailbages.com"
+acl tun url_regex http://.*tunning.*
 
+#1
+http_acces deny administ time
+http_acces deny empresa time
+http_acces deny maquin time
+http_acces deny disseny time
+
+
+#2
+http_acces allow maquin intmaqui
+
+
+#3
 delay_pools 1
 delay_class 1 1
-delay_parameters 1 5000/16000
+delay_parameters 1 20000/20000
 delay_access 1 allow dominis_mp3
-delay_access 1 allow xarxa
+delay_access 1 allow administ
 
+#4
+http_access deny prohibits
+
+
+#5
+# ipconfig / displaydns> dnslist.txt
+
+
+#6
+http_acces allow administ intadmin url
+
+#7
+http_access deny tun disseny
